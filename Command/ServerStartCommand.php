@@ -30,13 +30,15 @@ class ServerStartCommand extends ServerCommand
 {
     private $documentRoot;
     private $environment;
+    private $projectDir;
 
     protected static $defaultName = 'server:start';
 
-    public function __construct($documentRoot = null, $environment = null)
+    public function __construct($documentRoot = null, $environment = null, $projectDir = null)
     {
         $this->documentRoot = $documentRoot;
         $this->environment = $environment;
+        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -51,7 +53,7 @@ class ServerStartCommand extends ServerCommand
                 new InputArgument('addressport', InputArgument::OPTIONAL, 'The address to listen to (can be address:port, address, or port)'),
                 new InputOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root'),
                 new InputOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script'),
-                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file'),
+                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file', $this->projectDir . '/.web-server-pid'),
             ))
             ->setDescription('Starts a local web server in the background')
             ->setHelp(<<<'EOF'

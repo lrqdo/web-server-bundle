@@ -25,7 +25,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ServerStopCommand extends ServerCommand
 {
+    private $projectDir;
+
     protected static $defaultName = 'server:stop';
+
+    public function __construct($projectDir = null)
+    {
+        $this->projectDir = $projectDir;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -34,7 +43,7 @@ class ServerStopCommand extends ServerCommand
     {
         $this
             ->setDefinition(array(
-                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file'),
+                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file', $this->projectDir . '/.web-server-pid'),
             ))
             ->setDescription('Stops the local web server that was started with the server:start command')
             ->setHelp(<<<'EOF'

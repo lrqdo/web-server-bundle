@@ -27,7 +27,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ServerStatusCommand extends ServerCommand
 {
+    private $projectDir;
+
     protected static $defaultName = 'server:status';
+
+    public function __construct($projectDir = null)
+    {
+        $this->projectDir = $projectDir;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -36,7 +45,7 @@ class ServerStatusCommand extends ServerCommand
     {
         $this
             ->setDefinition(array(
-                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file'),
+                new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file', $this->projectDir . '/.web-server-pid'),
                 new InputOption('filter', null, InputOption::VALUE_REQUIRED, 'The value to display (one of port, host, or address)'),
             ))
             ->setDescription('Outputs the status of the local web server')
